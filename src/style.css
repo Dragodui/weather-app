@@ -1,18 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap');
 
 .scrollbar-hide::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+  padding-top:20px;
+  border-radius: 20px;
+  height: 10px;
 }
 
 .scrollbar-hide::-webkit-scrollbar-thumb {
-  background: transparent;
+  background: linear-gradient(to right, #93C5FD, #8B5CF6);
+  height: 10px;
+  border-radius: 20px;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap');
-
+html,
+body,
+.root {
+  height: 100%;
+}
 body {
   font-family: 'Nunito', sans-serif;
+}
+main {
+  position: relative;
+  min-height: 100%;
 }

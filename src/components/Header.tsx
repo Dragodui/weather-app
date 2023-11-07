@@ -1,20 +1,17 @@
-import { ChangeEvent, FC, useEffect } from "react";
 import axios from "axios";
-import { ISearchedCity, IWeatherParams } from "../types";
-import logo from "../assets/header/logo.svg";
-import locationIcon from "../assets/header/location.svg";
-import { useAppDispatch, useAppSelector } from "../store/store";
-import { setCurrentWeather, setForecast, setWeather } from "../store/features/weatherSlice";
-import { changeCity } from "../store/features/citySlice";
-import { changeVisibleCity } from "../store/features/citySlice";
-import { changeSearchCity } from "../store/features/citySlice";
-import { setCities } from "../store/features/citySearchSlice";
+import { ChangeEvent, FC, useEffect } from "react";
 import { Link } from "react-router-dom";
+import locationIcon from "../assets/header/location.svg";
+import logo from "../assets/header/logo.svg";
+import { setCities } from "../store/features/citySearchSlice";
+import { changeCity, changeSearchCity, changeVisibleCity } from "../store/features/citySlice";
+import { setCurrentWeather, setForecast, setWeather } from "../store/features/weatherSlice";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { ISearchedCity, IWeatherParams } from "../types";
 
 
 const Header: FC = () => {
 
-    
   const dispatch = useAppDispatch();
   const city = useAppSelector(state => state.city.city);
   const cityToShow = useAppSelector(state => state.city.visibleCity);
@@ -25,11 +22,12 @@ const Header: FC = () => {
     const fetchWeather = async() => {
       try {
         const apiKey: string | undefined = process.env.WEATHER_API_KEY;
-        console.log(apiKey);
         const response = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=10&aqi=no&alerts=no`);
         if (response.status === 200) {
           const data = response.data;
+          console.log(data);
           const weatherParams: IWeatherParams = {
+            
             currentTempInC: data.current.temp_c,
             currentTempInF: data.current.temp_f,
             condition: {
@@ -150,44 +148,42 @@ const Header: FC = () => {
    }
   };
 
-
     return (
         <header className="w-full flex justify-center items-center z-30 py-4 bg-gradient-to-r from-sky-400 to-purple-500">
-        <div className="container max-w-[1100px] mx-2 flex justify-between items-center">
-        <Link to="/" className="flex gap-2 items-center"><img src={logo} alt="" className="w-11" /><h1 className="text-3xl text-white font-black hidden md:inline">Weather App</h1></Link>
-        
-        <div className="flex items-center gap-2">
-          { 
-          city 
-            ? <Link to="/weather" onClick={handleLocation} className="flex items-center justify-end"><img className="w-7" src={locationIcon} alt="" /> <p className="text-white font-bold">{cityToShow}</p></Link>
-            : <Link to="/weather" onClick={handleLocation} className="flex items-center justify-end"><img className="w-7" src={locationIcon} alt="" /> <p className="text-white font-bold">find my location</p></Link>
-          }
-        <div className="max-w-[200px] md:max-w-[300px]">
-          <input 
-            className="border-2 border-hidden outline-none rounded-xl relative z-20 px-2 py-1 w-full text-xl" 
-            type="text" 
-            value={cityToSearch} 
-            onChange = {searchCity} 
-            placeholder="🔍 type city. . ."
-          />
-          <div className="flex flex-col max-h-24 overflow-y-auto scrollbar-hide absolute top-14 bg-gradient-to-r from-sky-400 to-purple-500 rounded-lg text-white max-w-[200px] md:max-w-[300px]">
-          {
-            cityToSearch 
-              ?  citiesSearch.map(city => 
-                  <Link to='/weather' className="py-1 px-2 border-b-2" key={city.geonameId}  onClick={() => {
-                    dispatch(changeCity({city:`${city.name}, ${city.adminName1}, ${city.countryCode}`}));
-                    dispatch(changeVisibleCity({visibleCity: `${city.name}, ${city.countryCode}`}));
-                    dispatch(changeSearchCity({searchCity: ''}));
-                  }}>
-                    {city.name}, {city.adminName1}, {city.countryCode}
-                  </Link>
-                )
-              : ''
-          }
+          <div className="container max-w-[1100px] mx-2 flex justify-between items-center">
+            <Link to="/" className="flex gap-2 items-center"><img src={logo} alt="" className="w-11" /><h1 className="text-3xl text-white font-black hidden md:inline">Weather App</h1></Link>
+            <div className="flex items-center gap-2">
+              { 
+              city 
+                ? <Link to="/weather" onClick={handleLocation} className="flex items-center justify-end"><img className="w-7" src={locationIcon} alt="" /> <p className="text-white font-bold">{cityToShow}</p></Link>
+                : <Link to="/weather" onClick={handleLocation} className="flex items-center justify-end"><img className="w-7" src={locationIcon} alt="" /> <p className="text-white font-bold">find my location</p></Link>
+              }
+              <div className="max-w-[200px] md:max-w-[300px]">
+                <input 
+                  className="border-2 border-hidden outline-none rounded-xl relative z-20 px-2 py-1 w-full text-xl" 
+                  type="text" 
+                  value={cityToSearch} 
+                  onChange = {searchCity} 
+                  placeholder="🔍 type city. . ."
+                />
+                <div className="flex flex-col max-h-24 overflow-y-auto scrollbar-hide absolute top-14 bg-gradient-to-r from-sky-400 to-purple-500 rounded-lg text-white max-w-[200px] md:max-w-[300px]">
+                {
+                  cityToSearch 
+                    ?  citiesSearch.map(city => 
+                        <Link to='/weather' className="py-1 px-2 border-b-2" key={city.geonameId}  onClick={() => {
+                          dispatch(changeCity({city:`${city.name}, ${city.adminName1}, ${city.countryCode}`}));
+                          dispatch(changeVisibleCity({visibleCity: `${city.name}, ${city.countryCode}`}));
+                          dispatch(changeSearchCity({searchCity: ''}));
+                        }}>
+                          {city.name}, {city.adminName1}, {city.countryCode}
+                        </Link>
+                      )
+                    : ''
+                }
+                </div>
+              </div>
           </div>
         </div>
-        </div>
-       </div>
       </header>
     );
 };

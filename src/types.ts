@@ -7,14 +7,14 @@ export interface ISearchedCity {
 }
 
 export interface IWeatherParams {
-    currentTempInC: number; //
-    currentTempInF: number;//
-    condition: {//
+    currentTempInC: number; 
+    currentTempInF: number;
+    condition: {
       text: string;
       icon: string;
     };
-    windMph: number;//
-    windKph: number;//
+    windMph: number;
+    windKph: number;
     humidity: number;
     precipMm: number;
     precipIn: number;
@@ -40,3 +40,8 @@ export interface IForecast {
   day: IWeatherParams;
   hour: IForecastHour[];
 }
+
+export type WeatherForHomePage = {
+  weather:  IWeatherParams;
+  city: string;
+};

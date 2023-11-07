@@ -1,9 +1,10 @@
 import Header from "./components/Header";
-import MainPage from "./components/Pages/WeatherPage";
-import HomePage from "./components/Pages/HomePage";
+import MainPage from "./Pages/WeatherPage";
+import HomePage from "./Pages/HomePage";
 import "./style.css";
 import { FC } from "react";
 import {HashRouter as Router, Route, Routes} from "react-router-dom";
+import Footer from "./components/Footer";
 
 const App:FC = () => {
 
@@ -20,6 +21,7 @@ const App:FC = () => {
            element = {<MainPage/>}
         />
       </Routes>
+      <Footer/>
     </Router>
   )
 }

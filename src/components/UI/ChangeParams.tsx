@@ -1,4 +1,3 @@
-import React from 'react';
 import { changeTemperatureMetric, changeWindSpeedMetric, changeMeasureMetric } from '../../store/features/metricParamsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 

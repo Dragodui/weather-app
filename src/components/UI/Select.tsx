@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, ChangeEvent } from "react";
+import { FC, useState, useEffect, useRef, ChangeEvent } from "react";
 import { IOptions } from "../../types";
 
 
@@ -8,17 +8,11 @@ interface CustomSelectProps {
   onChange: (option: IOptions | null) => void;
 }
 
-const CustomSelect: React.FC<CustomSelectProps> = ({ options, onChange }) => {
+const CustomSelect: FC<CustomSelectProps> = ({ options, onChange }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<IOptions | null>(null);
     const [filterText, setFilterText] = useState<string>("");
     const selectRef = useRef<HTMLDivElement>(null);
-  
-    const handleOptionClick = (option: IOptions) => {
-      setSelectedOption(option);
-      onChange(option);
-      setIsOpen(false);
-    };
   
     useEffect(() => {
       const handleOutsideClick = (event: MouseEvent) => {
@@ -32,6 +26,12 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ options, onChange }) => {
         document.removeEventListener("mousedown", handleOutsideClick);
       };
     }, []);
+
+    const handleOptionClick = (option: IOptions) => {
+      setSelectedOption(option);
+      onChange(option);
+      setIsOpen(false);
+    };
   
     const filteredOptions = options.filter((option) =>
       option.label.toLowerCase().includes(filterText.toLowerCase())

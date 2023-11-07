@@ -35,7 +35,7 @@ const initialState: WeatherState = {
         precipIn: 0,
     },
     forecast: []
-}
+};
 
 export const WeatherSlice = createSlice({
     name: 'weather',
@@ -49,7 +49,7 @@ export const WeatherSlice = createSlice({
         },
         setCurrentWeather: (state, action: PayloadAction<IWeatherParams>) => {
             state.currentWeather = action.payload;
-        }
+        },
     }
 });
 
