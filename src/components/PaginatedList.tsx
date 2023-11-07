@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, MouseEventHandler } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { setDay } from '../store/features/daySlice';
 
@@ -8,12 +8,12 @@ const PaginatedList: FC = () => {
     const dispatch = useAppDispatch();
     const day = useAppSelector(state => state.day.day);
 
-    const changeWeather = (e: MouseEvent) => {
+    const changeWeather: MouseEventHandler<HTMLButtonElement> = (e) => {
         const button = e.target as HTMLButtonElement;
         dispatch(setDay(button.value));
     };
-
-    const changeDay = (e: MouseEvent) => {
+    
+    const changeDay: MouseEventHandler<HTMLButtonElement> = (e) => {
         const button = e.target as HTMLButtonElement;
         const newDay: number = button.value === 'Next' ? parseInt(day) + 1 : parseInt(day) - 1;
         dispatch(setDay(newDay.toString()));
