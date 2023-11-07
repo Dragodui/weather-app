@@ -19,7 +19,7 @@ const HomePage: FC = () => {
           const weatherData = await Promise.all(
             biggestCities.map(async (city) => {
               try {
-                const apiKey = process.env.WEATHER_API_KEY;
+                const apiKey = import.meta.env.WEATHER_API_KEY;
                 const response = await axios.get(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`);
                 if (response.status === 200) {
                   const data = response.data;

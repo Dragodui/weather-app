@@ -13,7 +13,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     define: {
-      'process.env': processEnv
+      'process.env': processEnv,
+      'import.meta.env.WEATHER_API_KEY': JSON.stringify(process.env.WEATHER_API_KEY),
+      'import.meta.env.CITIES_API_KEY': JSON.stringify(process.env.CITIES_API_KEY)
     },
     plugins: [react()],
   }

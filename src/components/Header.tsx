@@ -21,7 +21,7 @@ const Header: FC = () => {
   useEffect(() => {
     const fetchWeather = async() => {
       try {
-        const apiKey: string | undefined = process.env.WEATHER_API_KEY;
+        const apiKey: string | undefined = import.meta.env.WEATHER_API_KEY;
         const response = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=10&aqi=no&alerts=no`);
         if (response.status === 200) {
           const data = response.data;
@@ -98,7 +98,7 @@ const Header: FC = () => {
 
   const searchCityByLocation = async(latitude: number, longitude: number) => {
     try {
-      const apiKey: string | undefined = process.env.CITIES_API_KEY;
+      const apiKey: string | undefined = import.meta.env.CITIES_API_KEY;
       const response = await axios.get(`http://api.geonames.org/findNearbyJSON?lat=${latitude}&lng=${longitude}&username=${apiKey}&style=full`);
       if (response.status === 200) {
 
@@ -123,7 +123,7 @@ const Header: FC = () => {
   const searchCity = async(e: ChangeEvent<HTMLInputElement>) => {
    dispatch(changeSearchCity({searchCity:e.target.value}));
    try {
-    const apiKey: string | undefined = process.env.CITIES_API_KEY;
+    const apiKey: string | undefined = import.meta.env.CITIES_API_KEY;
       const response = await axios.get(`http://api.geonames.org/searchJSON?name=${e.target.value}&maxRows=20&username=${apiKey}`);
       if (response.status === 200) {
         const data = response.data;

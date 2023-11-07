@@ -1,4 +1,4 @@
-import { IForecast, IForecastHour, IWeatherParams } from './../../types';
+import { IForecast, IWeatherParams } from './../../types';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface WeatherState {
