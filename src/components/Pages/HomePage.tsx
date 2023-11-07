@@ -57,7 +57,7 @@ const HomePage: FC = () => {
       }, []);
 
     return (
-        <main className="w-full flex justify-center flex-col items-center flex-1">
+        <main className="w-full flex justify-center flex-col items-center flex-1 pt-10">
              <div className="container max-w-[1100px] pt-20 flex flex-col justify-center items-center mx-4 px-3">
                {
                 isLoading

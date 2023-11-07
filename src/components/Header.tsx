@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useEffect } from "react";
 import axios from "axios";
-import { IForecastHour, ISearchedCity, IWeatherParams } from "../types";
+import { ISearchedCity, IWeatherParams } from "../types";
 import logo from "../assets/header/logo.svg";
 import locationIcon from "../assets/header/location.svg";
 import { useAppDispatch, useAppSelector } from "../store/store";
@@ -10,6 +10,7 @@ import { changeVisibleCity } from "../store/features/citySlice";
 import { changeSearchCity } from "../store/features/citySlice";
 import { setCities } from "../store/features/citySearchSlice";
 import { Link } from "react-router-dom";
+
 
 const Header: FC = () => {
 
@@ -23,7 +24,9 @@ const Header: FC = () => {
   useEffect(() => {
     const fetchWeather = async() => {
       try {
-        const response = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=45b0bc58cbed407a813225410230111&q=${city}&days=10&aqi=no&alerts=no`);
+        const apiKey: string | undefined = process.env.WEATHER_API_KEY;
+        console.log(apiKey);
+        const response = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=10&aqi=no&alerts=no`);
         if (response.status === 200) {
           const data = response.data;
           const weatherParams: IWeatherParams = {
@@ -71,8 +74,7 @@ const Header: FC = () => {
             }
             }));
           });
-          
-          console.log(forecastParams);
+
 
           dispatch(setForecast(forecastParams));
           dispatch(setWeather(weatherParams));
@@ -98,7 +100,8 @@ const Header: FC = () => {
 
   const searchCityByLocation = async(latitude: number, longitude: number) => {
     try {
-      const response = await axios.get(`http://api.geonames.org/findNearbyJSON?lat=${latitude}&lng=${longitude}&username=dragodui&style=full`);
+      const apiKey: string | undefined = process.env.CITIES_API_KEY;
+      const response = await axios.get(`http://api.geonames.org/findNearbyJSON?lat=${latitude}&lng=${longitude}&username=${apiKey}&style=full`);
       if (response.status === 200) {
 
         const data = response.data;
@@ -122,7 +125,8 @@ const Header: FC = () => {
   const searchCity = async(e: ChangeEvent<HTMLInputElement>) => {
    dispatch(changeSearchCity({searchCity:e.target.value}));
    try {
-      const response = await axios.get(`http://api.geonames.org/searchJSON?name=${e.target.value}&maxRows=20&username=dragodui`);
+    const apiKey: string | undefined = process.env.CITIES_API_KEY;
+      const response = await axios.get(`http://api.geonames.org/searchJSON?name=${e.target.value}&maxRows=20&username=${apiKey}`);
       if (response.status === 200) {
         const data = response.data;
         const geonames = data.geonames;
@@ -148,17 +152,17 @@ const Header: FC = () => {
 
 
     return (
-        <header className="w-full flex justify-center items-center py-4 bg-gradient-to-r from-sky-400 to-purple-500">
+        <header className="w-full flex justify-center items-center z-30 py-4 bg-gradient-to-r from-sky-400 to-purple-500">
         <div className="container max-w-[1100px] mx-2 flex justify-between items-center">
         <Link to="/" className="flex gap-2 items-center"><img src={logo} alt="" className="w-11" /><h1 className="text-3xl text-white font-black hidden md:inline">Weather App</h1></Link>
         
         <div className="flex items-center gap-2">
           { 
           city 
-            ? <Link to="/weather" onClick={handleLocation} className="flex items-center w-full justify-end"><img className="w-7" src={locationIcon} alt="" /> <p className="text-white font-bold">{cityToShow}</p></Link>
-            : <Link to="/weather" onClick={handleLocation} className="flex items-center w-full justify-end"><img className="w-7" src={locationIcon} alt="" /> <p className="text-white font-bold">find my location</p></Link>
+            ? <Link to="/weather" onClick={handleLocation} className="flex items-center justify-end"><img className="w-7" src={locationIcon} alt="" /> <p className="text-white font-bold">{cityToShow}</p></Link>
+            : <Link to="/weather" onClick={handleLocation} className="flex items-center justify-end"><img className="w-7" src={locationIcon} alt="" /> <p className="text-white font-bold">find my location</p></Link>
           }
-        <div className="max-w-[200px] w-full md:max-w-[300px]">
+        <div className="max-w-[200px] md:max-w-[300px]">
           <input 
             className="border-2 border-hidden outline-none rounded-xl relative z-20 px-2 py-1 w-full text-xl" 
             type="text" 
@@ -166,17 +170,17 @@ const Header: FC = () => {
             onChange = {searchCity} 
             placeholder="🔍 type city. . ."
           />
-          <div className="flex flex-col max-h-20 overflow-y-auto scrollbar-hide fixed bg-gradient-to-r from-sky-400 to-purple-500 rounded-lg text-white w-[200px] md: w-[300px]">
+          <div className="flex flex-col max-h-24 overflow-y-auto scrollbar-hide absolute top-14 bg-gradient-to-r from-sky-400 to-purple-500 rounded-lg text-white max-w-[200px] md:max-w-[300px]">
           {
             cityToSearch 
               ?  citiesSearch.map(city => 
-                  <button className="py-1 px-2 border-b-2" key={city.geonameId}  onClick={() => {
+                  <Link to='/weather' className="py-1 px-2 border-b-2" key={city.geonameId}  onClick={() => {
                     dispatch(changeCity({city:`${city.name}, ${city.adminName1}, ${city.countryCode}`}));
                     dispatch(changeVisibleCity({visibleCity: `${city.name}, ${city.countryCode}`}));
                     dispatch(changeSearchCity({searchCity: ''}));
                   }}>
                     {city.name}, {city.adminName1}, {city.countryCode}
-                  </button>
+                  </Link>
                 )
               : ''
           }

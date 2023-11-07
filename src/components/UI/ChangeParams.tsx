@@ -15,9 +15,9 @@ const ChangeParams = () => {
 
     return (
         <div className="flex gap-4 justify-center sm:justify-normal">
-            <button className="px-4 py-2 rounded-xl font-bold bg-gradient-to-r from-sky-400 to-purple-500 text-white" onClick={changeTemp}>{temperature}</button>
-            <button className="px-4 py-2 rounded-xl font-bold bg-gradient-to-r from-sky-400 to-purple-500 text-white"  onClick={changeWind}>{windSpeed}</button>
-            <button className="px-4 py-2 rounded-xl font-bold bg-gradient-to-r from-sky-400 to-purple-500 text-white"  onClick={changeMeasure}>{measure}</button>
+            <button className=" h-fit px-4 py-2 rounded-xl font-bold bg-gradient-to-r from-sky-400 to-purple-500 text-white" onClick={changeTemp}>{temperature}</button>
+            <button className=" h-fit px-4 py-2 rounded-xl font-bold bg-gradient-to-r from-sky-400 to-purple-500 text-white"  onClick={changeWind}>{windSpeed}</button>
+            <button className=" h-fit px-4 py-2 rounded-xl font-bold bg-gradient-to-r from-sky-400 to-purple-500 text-white"  onClick={changeMeasure}>{measure}</button>
         </div>
     );
 };

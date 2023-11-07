@@ -25,10 +25,13 @@ const MainPage: FC = () => {
     const currentDate = new Date();
     const getDate = (dayNum: string): string => {
       const date = new Date();
+
       date.setDate(date.getDate() + parseInt(dayNum) - 1);
+
       const day = date.getDate().toString().padStart(2, '0');
       const month = (date.getMonth() + 1).toString().padStart(2, '0');
       const year = date.getFullYear().toString().slice(-2); 
+
       return `${day}.${month}.${year}`;
     }
     useEffect(() => {
@@ -46,31 +49,29 @@ const MainPage: FC = () => {
           default:
             setDayName(`${getDate(day)}`);
             break;
-        }
-
-          
+        } 
       }
     }, [forecast, day])
 
     return (
-      <main className="w-full flex justify-center flex-col items-center flex-1">
-        <div className="container max-w-[1100px] pt-20 pb-20 flex flex-col justify-center items-center mx-4">
+      <main className="w-full flex justify-center flex-col items-center flex-1 pt-10">
+        <div className="container max-w-[1100px] pt-20 pb-20 flex flex-col justify-center items-center px-3">
         {
           city 
           ? <>
               <PageHeader title = {`${dayName} weather in ${cityToShow}`}/>
               <PaginatedList/>
-              <div className="grid grid-cols-1 grid-rows-2 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-10 w-full text-center text-2xl px-3">
+              <div className="grid grid-cols-1 grid-rows-2 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-10 w-full text-center text-2xl">
                 <div className="animate__animated animate__fadeInTopLeft bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
                   <p>{ cityToShow }</p>
                 </div>
                 <div className="animate__animated animate__fadeInDownBig bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
                   <p className="text-6xl text-yellow-200 font-black text-center block w-full"> {temperature === '°C' ? `${weather.currentTempInC}°C` : `${weather.currentTempInF}°F`}</p>
                 </div>
-                <div className="animate__animated animate__fadeInDownBig bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
+                <div className="animate__animated animate__fadeInTopRight bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
                   <span className="text-xl">Wind:</span> <br/> {windSpeed === 'mph' ? `${weather.windMph} mph` : `${weather.windKph} kph`}
                 </div>
-                <div className="animate__animated animate__fadeInTopRight bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
+                <div className="animate__animated animate__fadeInBottomLeft bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
                   <img className="w-20" src={weather.condition.icon} alt="" /> 
                   <p>{weather.condition.text}</p>
                 </div>
@@ -83,10 +84,10 @@ const MainPage: FC = () => {
                   {measure === 'mm' ? `${weather.precipMm} mm` : `${weather.precipIn} in`}
                   </div>
               </div>
-              <div className="flex overflow-x-auto max-w-[1100px] mt-10 gap-5 px-3">
+              <div className="flex overflow-x-auto max-w-full mt-10 gap-5 px-3">
                   {
                     forecastThisDay.map(hour => 
-                      <div key={forecastThisDay.indexOf(hour)} className="px-2 py-1 flex items-center justify-between flex-col min-w-fit">
+                      <div key={forecastThisDay.indexOf(hour)} className="px-3 py-2 font-bold bg-gradient-to-r from-sky-400 to-purple-500 text-white  rounded-xl flex items-center justify-between flex-col min-w-fit">
                         {forecastThisDay.indexOf(hour) > 12 ? <p>{forecastThisDay.indexOf(hour)-12} pm</p> : <p>{forecastThisDay.indexOf(hour)} am</p>}
                         <img className="w-10 min-w-fit" src={hour.condition.icon} alt="" />
                         <p>{hour.chanceOfPrecip}%</p>
