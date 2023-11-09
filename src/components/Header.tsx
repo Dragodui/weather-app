@@ -99,7 +99,7 @@ const Header: FC = () => {
   const searchCityByLocation = async(latitude: number, longitude: number) => {
     try {
       const apiKey: string | undefined = process.env.CITIES_API_KEY;
-      const response = await axios.get(`https://api.geonames.org/findNearbyJSON?lat=${latitude}&lng=${longitude}&username=${apiKey}&style=full`);
+      const response = await axios.get(`http://api.geonames.org/findNearbyJSON?lat=${latitude}&lng=${longitude}&username=${apiKey}&style=full`);
       if (response.status === 200) {
 
         const data = response.data;
@@ -124,7 +124,7 @@ const Header: FC = () => {
    dispatch(changeSearchCity({searchCity:e.target.value}));
    try {
     const apiKey: string | undefined = process.env.CITIES_API_KEY;
-      const response = await axios.get(`https://api.geonames.org/searchJSON?name=${e.target.value}&maxRows=20&username=${apiKey}`);
+      const response = await axios.get(`http://api.geonames.org/searchJSON?name=${e.target.value}&maxRows=20&username=${apiKey}`);
       if (response.status === 200) {
         const data = response.data;
         const geonames = data.geonames;
