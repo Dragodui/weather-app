@@ -27,7 +27,7 @@ const WeatherBlock: FC<WeatherBlockProps> = ({ weather, city }) => {
             <p className="text-xl mt-3">Wind: {windSpeed === 'mph' ? `${weather.windMph} mph` : `${weather.windKph} kph`}</p>
           </div>
           <div className="flex flex-col items-center justify-center relative bottom-1">
-            <img className="relative top-6 w-24" src={weather.condition.icon} alt="" />
+            <img className="relative top-3 w-24" src={weather.condition.icon} alt="" />
             <p>{weather.condition.text}</p>
           </div>
         </div>
