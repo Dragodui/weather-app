@@ -22,7 +22,7 @@ const Header: FC = () => {
     const fetchWeather = async() => {
       try {
         const apiKey: string | undefined = process.env.WEATHER_API_KEY;
-        const response = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=10&aqi=no&alerts=no`);
+        const response = await axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=10&aqi=no&alerts=no`);
         if (response.status === 200) {
           const data = response.data;
           console.log(data);
