@@ -58,34 +58,34 @@ const MainPage: FC = () => {
           city 
           ? weather
             ? <>
-                <div className="animate__animated animate__fadeInRight w-full">
+                <div className="md:animate__animated md:animate__fadeInRight w-full">
                   <PageHeader title = {`${dayName} weather in ${cityToShow}`}/>
                   <PaginatedList/>
                 </div>
                 <div className="grid grid-cols-1 grid-rows-2 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-10 w-full text-center text-2xl">
-                  <div className="animate__animated animate__fadeInTopLeft bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
+                  <div className="md:animate__animated md:animate__fadeInTopLeft bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
                     <p className="text-4xl font-black">{ cityToShow }</p>
                   </div>
-                  <div className="animate__animated animate__fadeInDownBig bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
+                  <div className="md:animate__animated md:animate__fadeInDownBig bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
                     <p className="text-6xl text-yellow-200 font-black text-center block w-full"> {temperature === '°C' ? `${weather.currentTempInC}°C` : `${weather.currentTempInF}°F`}</p>
                   </div>
-                  <div className="animate__animated animate__fadeInTopRight bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
+                  <div className="md:animate__animated md:animate__fadeInTopRight bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
                     <span className="text-xl font-black">Wind:</span> <br/> <p className="font-black">{windSpeed === 'mph' ? `${weather.windMph} mph` : `${weather.windKph} kph`}</p>
                   </div>
-                  <div className="animate__animated animate__fadeInBottomLeft bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
+                  <div className="md:animate__animated md:animate__fadeInBottomLeft bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
                     <img className="w-20" src={weather.condition.icon} alt="" /> 
                     <p className="font-black">{weather.condition.text}</p>
                   </div>
-                  <div className="animate__animated animate__fadeInUpBig  bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-black">
+                  <div className="md:animate__animated md:animate__fadeInUpBig  bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-black">
                     <span className="text-xl">Humidity</span> <br/> 
                     <p className="font-black">{weather.humidity}%</p>
                     </div>
-                  <div className="animate__animated animate__fadeInBottomRight bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
+                  <div className="md:animate__animated md:animate__fadeInBottomRight bg-gradient-to-r from-sky-400 to-purple-500 text-white rounded-2xl p-3 text-2xl flex flex-col items-center justify-center font-bold">
                     <span className="text-xl font-black">Precipitation</span> <br/> 
                     <p className="font-black">{measure === 'mm' ? `${weather.precipMm} mm` : `${weather.precipIn} in`}</p>
                     </div>
                 </div>
-                <div className="flex overflow-x-auto scrollbar-hide max-w-full mt-10 gap-5 px-3 animate__animated animate__fadeInLeft">
+                <div className="flex overflow-x-auto scrollbar-hide max-w-full mt-10 gap-5 px-3 md:animate__animated md:animate__fadeInLeft">
                     {
                       forecastThisDay.map(hour => 
                         <div key={forecastThisDay.indexOf(hour)} className="px-3 py-2 font-bold bg-gradient-to-r from-sky-400 to-purple-500 text-white  rounded-xl flex items-center justify-between flex-col min-w-fit">
