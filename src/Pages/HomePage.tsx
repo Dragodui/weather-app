@@ -45,7 +45,7 @@ const HomePage: FC = () => {
               }
             })
           );
-          setBiggestCitiesWeather(weatherData.filter((data) => data !== undefined));
+          setBiggestCitiesWeather(weatherData);
           setIsLoading(false);
         };
       
