@@ -120,31 +120,47 @@ const Header: FC = () => {
    }
   };
 
-  const searchCity = async(e: ChangeEvent<HTMLInputElement>) => {
-   const city: string = e.target.value;
-   dispatch(changeSearchCity({searchCity:city}));
-   try {
-      const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${city}&format=json&limit=10&accept-language=en&addressdetails=1`);
-      if (response.status === 200) {
-        const data = response.data; 
-        console.log(data);
-        const list = data.map(city => {
-          return (city.address.city) ? {
-            id: city.place_id,
-            name: city.address.city,
-            countryCode: city.address.country_code.toUpperCase(),
-            adminName: city.address.state
-          } : null
-        }).filter(city => city !== null);
-        dispatch(setCities(list));
+  const searchCity = async (e: ChangeEvent<HTMLInputElement>) => {
+    const city: string = e.target.value;
+    dispatch(changeSearchCity({ searchCity: city }));
+    setTimeout(async () => {
+      try {
+        const response = await axios.get(
+          `https://nominatim.openstreetmap.org/search?q=${city}&format=json&limit=10&accept-language=en&addressdetails=1`
+        );
+        if (response.status === 200) {
+          const data = response.data;
+          const list = data
+            .map((city) => {
+              return city.address.city
+                ? {
+                    id: city.place_id,
+                    name: city.address.city,
+                    countryCode: city.address.country_code.toUpperCase(),
+                    adminName: city.address.state,
+                  }
+                : null;
+            })
+            .filter((city) => city !== null);
+          dispatch(setCities(list));
+        } else {
+          console.log('nie spoko');
+        }
+      } catch (error) {
+        console.log(`error ${error}`);
       }
-      else {
-        console.log('nie spoko');
-      }
-   } catch(error) {
-      console.log(`error ${error}`);
-   }
+    }, 500);
   };
+  
+  // Ваш компонент
+  <input
+    className="border-2 border-hidden outline-none rounded-xl relative z-20 px-2 py-1 w-full text-xl"
+    type="text"
+    value={cityToSearch}
+    onChange={searchCity}
+    placeholder="🔍 type city. . ."
+  />
+  
 
     return (
         <header className="w-full flex justify-center items-center z-30 py-4 bg-gradient-to-r from-sky-400 to-purple-500">

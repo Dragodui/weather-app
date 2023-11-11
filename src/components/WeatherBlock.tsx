@@ -14,7 +14,7 @@ const WeatherBlock: FC<WeatherBlockProps> = ({ weather, city }) => {
 
 
     return (
-      <div className="flex flex-col gap-1 justify-center items-center p-3 bg-gradient-to-r from-sky-400 to-purple-500 rounded-3xl text-white text-center">
+      <div className="flex flex-col gap-1 justify-center items-center p-3 bg-gradient-to-r from-sky-400 to-purple-500 rounded-3xl text-white text-left">
         <div className="flex justify-between items-start w-full gap-6">
           <div>
             <p className="text-5xl text-yellow-200 font-black text-left block w-full"> {temperature === '°C' ? `${weather.currentTempInC}°C` : `${weather.currentTempInF}°F`}</p>

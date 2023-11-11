@@ -64,7 +64,7 @@ const HomePage: FC = () => {
                     <div  className="animate__animated animate__bounceInRight w-full"><PageHeader title = "Weather in big cities"/></div>
                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-10 animate__bounceInLeft animate__animated ">
                         {
-                            biggestCitiesWeather.map(weather =>  <WeatherBlock key={weather.weather.windMph+weather.weather.precipMm} weather={ weather.weather } city={weather.city}/>)
+                            biggestCitiesWeather.map(weather =>  <WeatherBlock key={(weather.weather.windMph + weather.weather.precipMm) * weather.weather.currentTempInC} weather={ weather.weather } city={weather.city}/>)
                         }
                     </div>
                   </>
