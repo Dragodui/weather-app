@@ -7,7 +7,7 @@ import { setCities } from "../store/features/citySearchSlice";
 import { changeCity, changeSearchCity, changeVisibleCity } from "../store/features/citySlice";
 import { setCurrentWeather, setForecast, setWeather } from "../store/features/weatherSlice";
 import { useAppDispatch, useAppSelector } from "../store/store";
-import { ISearchedCity, IWeatherParams } from "../types";
+import { IWeatherParams } from "../types";
 
 
 const Header: FC = () => {
@@ -98,16 +98,16 @@ const Header: FC = () => {
 
   const searchCityByMyLocation = async(latitude: number, longitude: number) => {
     try {
-      const apiKey: string | undefined = process.env.CITIES_API_KEY;
-      const response = await axios.get(`https://dataservice.accuweather.com/locations/v1/cities/search?apikey=${apiKey}&q=${latitude},${longitude}&language=en-us&details=false`);
+      const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${latitude},${longitude}&format=json&limit=10&accept-language=en&addressdetails=1`);
       if (response.status === 200) {
         const data = response.data;
         const dataResult = data[0];
+        const dataAddress = dataResult.address
         const city = {
-          id: dataResult.Key,
-          name: dataResult.EnglishName,
-          countryCode: dataResult.Country.ID,
-          adminName: dataResult.AdministrativeArea.EnglishName,
+          id: dataResult.place_id,
+          name: dataAddress.city,
+          countryCode: dataAddress.country_code.toUpperCase(),
+          adminName: dataAddress.state,
         }
         dispatch(changeCity({city:`${city.name}, ${city.adminName}, ${city.countryCode}`}));
         dispatch(changeVisibleCity({visibleCity: `${city.name}, ${city.countryCode}`}));
@@ -121,19 +121,21 @@ const Header: FC = () => {
   };
 
   const searchCity = async(e: ChangeEvent<HTMLInputElement>) => {
-   dispatch(changeSearchCity({searchCity:e.target.value}));
+   const city: string = e.target.value;
+   dispatch(changeSearchCity({searchCity:city}));
    try {
-    const apiKey: string | undefined = process.env.CITIES_API_KEY;
-      const response = await axios.get(`https://dataservice.accuweather.com/locations/v1/cities/search?apikey=${apiKey}&q=${e.target.value}&language=en-us&details=false`);
+      const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${city}&format=json&limit=10&accept-language=en&addressdetails=1`);
       if (response.status === 200) {
-        const data = response.data;
-        const list = data.map(city => ({
-            id: city.Key,
-            name: city.EnglishName,
-            countryCode: city.Country.ID,
-            adminName: city.AdministrativeArea.EnglishName,
-        }));
-        console.log(list);
+        const data = response.data; 
+        console.log(data);
+        const list = data.map(city => {
+          return (city.address.city) ? {
+            id: city.place_id,
+            name: city.address.city,
+            countryCode: city.address.country_code.toUpperCase(),
+            adminName: city.address.state
+          } : null
+        }).filter(city => city !== null);
         dispatch(setCities(list));
       }
       else {
