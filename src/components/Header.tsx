@@ -83,7 +83,7 @@ const Header: FC = () => {
       }
     };
 
-    fetchWeather();
+    if (city) fetchWeather();
 
   }, [city]);
 
