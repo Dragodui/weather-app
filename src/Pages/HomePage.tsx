@@ -11,7 +11,7 @@ const HomePage: FC = () => {
     const biggestCities: string[] = ['New York', 'London', 'Berlin', 'Moscow', 'Minsk', 'Warsaw'];
 
     const [biggestCitiesWeather, setBiggestCitiesWeather] = useState<WeatherForHomePage[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchWeatherForAllCities = async () => {
@@ -23,6 +23,7 @@ const HomePage: FC = () => {
                 const response = await axios.get(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`);
                 if (response.status === 200) {
                   const data = response.data;
+                  setIsLoading(false);
                   return {
                     weather: {
                       currentTempInC: data.current.temp_c,
@@ -45,7 +46,8 @@ const HomePage: FC = () => {
               }
             })
           );
-          setBiggestCitiesWeather(weatherData);
+      
+          setBiggestCitiesWeather(weatherData.filter((data) => data !== undefined));
           setIsLoading(false);
         };
       
@@ -62,7 +64,7 @@ const HomePage: FC = () => {
                     <div  className="animate__animated animate__bounceInRight w-full"><PageHeader title = "Weather in big cities"/></div>
                     <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-10 animate__bounceInLeft animate__animated ">
                         {
-                            biggestCitiesWeather.map(weather =>  <WeatherBlock key={weather.weather.windMph} weather={ weather.weather } city={weather.city}/>)
+                            biggestCitiesWeather.map(weather =>  <WeatherBlock key={weather.weather.windMph+weather.weather.precipMm} weather={ weather.weather } city={weather.city}/>)
                         }
                     </div>
                   </>
