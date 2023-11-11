@@ -25,7 +25,7 @@ const Header: FC = () => {
         const response = await axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=10&aqi=no&alerts=no`);
         if (response.status === 200) {
           const data = response.data;
-          console.log(data);
+
           const weatherParams: IWeatherParams = {
             
             currentTempInC: data.current.temp_c,
@@ -91,25 +91,25 @@ const Header: FC = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
-        searchCityByLocation(latitude, longitude);
+        searchCityByMyLocation(latitude, longitude);
       });
     }
   };
 
-  const searchCityByLocation = async(latitude: number, longitude: number) => {
+  const searchCityByMyLocation = async(latitude: number, longitude: number) => {
     try {
       const apiKey: string | undefined = process.env.CITIES_API_KEY;
-      const response = await axios.get(`http://api.geonames.org/findNearbyJSON?lat=${latitude}&lng=${longitude}&username=${apiKey}&style=full`);
+      const response = await axios.get(`https://dataservice.accuweather.com/locations/v1/cities/search?apikey=${apiKey}&q=${latitude},${longitude}&language=en-us&details=false`);
       if (response.status === 200) {
-
         const data = response.data;
-        const city: ISearchedCity = {
-          geonameId: data.geonames[0].adminId2,
-          name: data.geonames[0].adminName2,
-          countryCode: data.geonames[0].countryCode,
-          adminName1: data.geonames[0].adminName3,
+        const dataResult = data[0];
+        const city = {
+          id: dataResult.Key,
+          name: dataResult.EnglishName,
+          countryCode: dataResult.Country.ID,
+          adminName: dataResult.AdministrativeArea.EnglishName,
         }
-        dispatch(changeCity({city:`${city.name}, ${city.adminName1}, ${city.countryCode}`}));
+        dispatch(changeCity({city:`${city.name}, ${city.adminName}, ${city.countryCode}`}));
         dispatch(changeVisibleCity({visibleCity: `${city.name}, ${city.countryCode}`}));
       }
       else {
@@ -124,20 +124,16 @@ const Header: FC = () => {
    dispatch(changeSearchCity({searchCity:e.target.value}));
    try {
     const apiKey: string | undefined = process.env.CITIES_API_KEY;
-      const response = await axios.get(`http://api.geonames.org/searchJSON?name=${e.target.value}&maxRows=20&username=${apiKey}`);
+      const response = await axios.get(`https://dataservice.accuweather.com/locations/v1/cities/search?apikey=${apiKey}&q=${e.target.value}&language=en-us&details=false`);
       if (response.status === 200) {
         const data = response.data;
-        const geonames = data.geonames;
-
-        geonames.sort((a, b) => b.population - a.population);
-
-        const list = data.geonames.map((city: ISearchedCity) => ({
-          geonameId: city.geonameId,
-          name: city.name,
-          countryCode: city.countryCode,
-          adminName1: city.adminName1,
+        const list = data.map(city => ({
+            id: city.Key,
+            name: city.EnglishName,
+            countryCode: city.Country.ID,
+            adminName: city.AdministrativeArea.EnglishName,
         }));
-
+        console.log(list);
         dispatch(setCities(list));
       }
       else {
@@ -166,16 +162,16 @@ const Header: FC = () => {
                   onChange = {searchCity} 
                   placeholder="🔍 type city. . ."
                 />
-                <div className="flex flex-col max-h-24 overflow-y-auto scrollbar-hide absolute top-14 bg-gradient-to-r from-sky-400 to-purple-500 rounded-lg text-white max-w-[200px] md:max-w-[300px]">
+                <div className="flex flex-col z-40 max-h-24 overflow-y-auto scrollbar-hide absolute top-14 bg-gradient-to-r from-sky-400 to-purple-500 rounded-lg text-white max-w-[200px] md:max-w-[300px]">
                 {
                   cityToSearch 
                     ?  citiesSearch.map(city => 
                         <Link to='/weather' className="py-1 px-2 border-b-2" key={city.geonameId}  onClick={() => {
-                          dispatch(changeCity({city:`${city.name}, ${city.adminName1}, ${city.countryCode}`}));
+                          dispatch(changeCity({city:`${city.name}, ${city.adminName}, ${city.countryCode}`}));
                           dispatch(changeVisibleCity({visibleCity: `${city.name}, ${city.countryCode}`}));
                           dispatch(changeSearchCity({searchCity: ''}));
                         }}>
-                          {city.name}, {city.adminName1}, {city.countryCode}
+                          {city.name}, {city.adminName}, {city.countryCode}
                         </Link>
                       )
                     : ''

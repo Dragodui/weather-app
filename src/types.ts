@@ -3,7 +3,7 @@ export interface ISearchedCity {
    geonameId: number;
    name: string;
    countryCode: string;
-   adminName1: string;
+   adminName: string;
 }
 
 export interface IWeatherParams {
