@@ -23,7 +23,6 @@ const HomePage: FC = () => {
                 const response = await axios.get(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`);
                 if (response.status === 200) {
                   const data = response.data;
-                  setIsLoading(false);
                   return {
                     weather: {
                       currentTempInC: data.current.temp_c,
@@ -46,8 +45,8 @@ const HomePage: FC = () => {
               }
             })
           );
-      
           setBiggestCitiesWeather(weatherData.filter((data) => data !== undefined));
+          setIsLoading(false);
         };
       
         fetchWeatherForAllCities();
