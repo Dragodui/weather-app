@@ -1,27 +1,15 @@
-# React + TypeScript + Vite
+# Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ReactJs Weather App
+## Project demo
 
-Currently, two official plugins are available:
+Here you can see the demo of this project: <br/>
+https://dragodui-weather-app.netlify.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<img src="https://mini.s-shot.ru/1920x1200/JPEG/1920/Z120/?https%3A%2F%2Fdragodui-weather-app.netlify.app%2F">
+![Screenshot](https://github.com/Dragodui/weather-app/assets/85372599/f001b1f9-41bd-4111-ba8f-6c2f4b09fe6d)
 
-## Expanding the ESLint configuration
+## Technologies
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+[![Technologies](https://skillicons.dev/icons?i=vite%2Cts%2Credux%2Creact%2Ctailwind%2Chtml%2Ccss&perline=15&theme=dark)](https://skillicons.dev)
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
