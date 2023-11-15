@@ -152,15 +152,6 @@ const Header: FC = () => {
     }, 500);
   };
   
-  // Ваш компонент
-  <input
-    className="border-2 border-hidden outline-none rounded-xl relative z-20 px-2 py-1 w-full text-xl"
-    type="text"
-    value={cityToSearch}
-    onChange={searchCity}
-    placeholder="🔍 type city. . ."
-  />
-  
 
     return (
         <header className="w-full flex justify-center items-center z-30 py-4 bg-gradient-to-r from-sky-400 to-purple-500">
@@ -181,19 +172,19 @@ const Header: FC = () => {
                   placeholder="🔍 type city. . ."
                 />
                 <div className="flex flex-col z-40 max-h-24 overflow-y-auto scrollbar-hide absolute top-14 bg-gradient-to-r from-sky-400 to-purple-500 rounded-lg text-white max-w-[200px] md:max-w-[300px]">
-                {
-                  cityToSearch 
-                    ?  citiesSearch.map(city => 
-                        <Link to='/weather' className="py-1 px-2 border-b-2" key={city.geonameId}  onClick={() => {
-                          dispatch(changeCity({city:`${city.name}, ${city.adminName}, ${city.countryCode}`}));
-                          dispatch(changeVisibleCity({visibleCity: `${city.name}, ${city.countryCode}`}));
-                          dispatch(changeSearchCity({searchCity: ''}));
-                        }}>
-                          {city.name}, {city.adminName}, {city.countryCode}
-                        </Link>
-                      )
-                    : ''
-                }
+                  {
+                    cityToSearch 
+                      ?  citiesSearch.map(city => 
+                          <Link to='/weather' className="py-1 px-2 border-b-2" key={city.geonameId}  onClick={() => {
+                            dispatch(changeCity({city:`${city.name}, ${city.adminName}, ${city.countryCode}`}));
+                            dispatch(changeVisibleCity({visibleCity: `${city.name}, ${city.countryCode}`}));
+                            dispatch(changeSearchCity({searchCity: ''}));
+                          }}>
+                            {city.name}, {city.adminName}, {city.countryCode}
+                          </Link>
+                        )
+                      : ''
+                  }
                 </div>
               </div>
           </div>
