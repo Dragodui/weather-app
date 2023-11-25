@@ -85,7 +85,7 @@ const MainPage: FC = () => {
                     <p className="font-black">{measure === 'mm' ? `${weather.precipMm} mm` : `${weather.precipIn} in`}</p>
                     </div>
                 </div>
-                <div className="flex overflow-x-auto scrollbar-hide max-w-full mt-10 gap-5 px-3 md:animate__animated md:animate__fadeInLeft">
+                <div className="flex overflow-x-auto scrollbar-hide max-w-full mt-10 gap-5 px-3 py-1 md:animate__animated md:animate__fadeInLeft">
                     {
                       forecastThisDay.map(hour => 
                         <div key={forecastThisDay.indexOf(hour)} className="px-3 py-2 font-bold bg-gradient-to-r from-sky-400 to-purple-500 text-white  rounded-xl flex items-center justify-between flex-col min-w-fit">
