@@ -25,7 +25,7 @@ const Header: FC = () => {
         const response = await axios.get(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=10&aqi=no&alerts=no`);
         if (response.status === 200) {
           const data = response.data;
-
+          console.log(data);
           const weatherParams: IWeatherParams = {
             
             currentTempInC: data.current.temp_c,
