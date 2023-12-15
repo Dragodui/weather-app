@@ -6,8 +6,10 @@ ReactJs Weather App
 Here you can see the demo of this project: <br/>
 https://dragodui-weather-app.netlify.app/
 
-<img src="https://mini.s-shot.ru/1920x1200/JPEG/1920/Z120/?https%3A%2F%2Fdragodui-weather-app.netlify.app%2F">
-<img src="https://github.com/Dragodui/weather-app/assets/85372599/f001b1f9-41bd-4111-ba8f-6c2f4b09fe6d">
+<img src="[https://mini.s-shot.ru/1920x1200/JPEG/1920/Z120/?https%3A%2F%2Fdragodui-weather-app.netlify.app%2F](https://mini.s-shot.ru/1920x1200/JPEG/1920/Z120/?https%3A%2F%2Fdragodui-weather-app.netlify.app%2F%23%2F
+ )">
+<img src="![image](https://github.com/Dragodui/weather-app/assets/85372599/77fdaa29-8c0d-45f4-94e7-c17801a7cbd7)
+">
 
 ## Technologies
 
