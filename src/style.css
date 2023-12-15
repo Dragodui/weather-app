@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background: #00bbff;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   padding-top: 20px;
   border-radius: 20px;
@@ -11,7 +15,7 @@
 }
 
 .scrollbar-hide::-webkit-scrollbar-thumb {
-  background: linear-gradient(to right, #93c5fd, #8b5cf6);
+  background: #0369a1;
   height: 10px;
   border-radius: 20px;
 }

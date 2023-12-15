@@ -7,8 +7,11 @@ import { setWeather } from '../store/features/weatherSlice';
 import Loader from '../components/UI/Loader';
 import HoursWeather from '../components/HoursWeather';
 import WeatherPageContent from '../components/WeatherPageContent';
+import axios from 'axios';
+import { changeCity, changeMyLocation, changeVisibleCity } from '../store/features/citySlice';
+import locationIcon from "../assets/header/location.svg";
 
-const MainPage: FC = () => {
+const WeatherPage: FC = () => {
     
     const weather = useAppSelector(state => state.weather.weather);
     const cityToShow = useAppSelector(state => state.city.visibleCity);
@@ -18,7 +21,7 @@ const MainPage: FC = () => {
     const currentWeather = useAppSelector(state => state.weather.currentWeather);
     const dispatch = useAppDispatch();
     const [forecastThisDay, setForecastThisDay] = useState<IForecastHour[]>([]);
-    const [dayName, setDayName] = useState<string>('current');
+    const [dayName, setDayName] = useState<string>('Current');
 
     const getDate = (dayNum: string): string => {
       const date = new Date();
@@ -31,6 +34,41 @@ const MainPage: FC = () => {
 
       return `${day}.${month}.${year}`;
     }
+
+    const handleLocation = (): void => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const { latitude, longitude } = position.coords;
+          searchCityByMyLocation(latitude, longitude);
+        });
+      }
+    };
+  
+    const searchCityByMyLocation = async(latitude: number, longitude: number) => {
+      try {
+        const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${latitude},${longitude}&format=json&limit=10&accept-language=en&addressdetails=1`);
+        if (response.status === 200) {
+          const data = response.data;
+          const dataResult = data[0];
+          const dataAddress = dataResult.address
+          const city = {
+            id: dataResult.place_id,
+            name: dataAddress.city,
+            countryCode: dataAddress.country_code.toUpperCase(),
+            adminName: dataAddress.state,
+          }
+          dispatch(changeCity({city:`${city.name}, ${city.adminName}, ${city.countryCode}`}));
+          dispatch(changeVisibleCity({visibleCity: `${city.name}, ${city.countryCode}`}));
+          dispatch(changeMyLocation({myLocation: `${city.name}, ${city.countryCode}`}));
+        }
+        else {
+          console.log('nie spoko');
+        }
+     } catch(error) {
+        console.log(`error ${error}`);
+     }
+    };
+
     useEffect(() => {
       if (forecast.length) {
         setForecastThisDay(forecast[parseInt(day)-1].hour);
@@ -38,10 +76,10 @@ const MainPage: FC = () => {
         else dispatch(setWeather(currentWeather));
         switch (day) {
           case "1":
-            setDayName('current');
+            setDayName('Current');
             break;  
           case "2":
-            setDayName('tomorrow');
+            setDayName('Tomorrow');
             break;
           default:
             setDayName(`${getDate(day)}`);
@@ -67,7 +105,7 @@ const MainPage: FC = () => {
                 />
               </>
           : <Loader/>
-          : <h1 className="w-full h-full flex items-center justify-center pt-60 text-6xl text-gray-400 font-bold text-center">choose city</h1>
+          : <button onClick={handleLocation} className="flex items-center justify-end py-5 px-10 text-2xl gap-2 font-bold bg-sky-700 rounded-[24px] mt-[200px]"><img className="w-7" src={locationIcon} alt="" /> <p className="text-white font-bold">find my location</p></button>
         }
         
         </div>
@@ -75,4 +113,4 @@ const MainPage: FC = () => {
     );
 };
 
-export default MainPage;
+export default WeatherPage;

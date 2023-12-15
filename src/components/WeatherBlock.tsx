@@ -1,6 +1,8 @@
 import { FC } from 'react';
-import { useAppSelector } from '../store/store';
+import { useAppDispatch, useAppSelector } from '../store/store';
 import { IWeatherParams } from '../types';
+import { Link } from 'react-router-dom';
+import { changeCity, changeVisibleCity } from '../store/features/citySlice';
 
 interface WeatherBlockProps {
     weather: IWeatherParams;
@@ -11,10 +13,19 @@ const WeatherBlock: FC<WeatherBlockProps> = ({ weather, city }) => {
   
     const temperature = useAppSelector(state => state.metricParams.temperature);
     const windSpeed = useAppSelector(state => state.metricParams.windSpeed);
+    const dispatch = useAppDispatch();
 
+    const changeCityAndWeather = (): void => {
+      dispatch(changeCity({city: city}));
+      dispatch(changeVisibleCity({visibleCity: city}));
+    };
 
     return (
-      <div className="flex flex-col gap-1 justify-center items-center p-3 bg-gradient-to-r from-sky-400 to-purple-500 rounded-3xl text-white text-left">
+      <Link 
+        to="/weather" 
+        onClick={changeCityAndWeather} 
+        className="flex flex-col gap-1 justify-center items-center p-3 bg-sky-600 rounded-3xl text-white text-left"
+      >
         <div className="flex justify-between items-start w-full gap-6">
           <div>
             <p className="text-5xl text-yellow-200 font-black text-left block w-full"> {temperature === '°C' ? `${weather.currentTempInC}°C` : `${weather.currentTempInF}°F`}</p>
@@ -31,7 +42,7 @@ const WeatherBlock: FC<WeatherBlockProps> = ({ weather, city }) => {
             <p>{weather.condition.text}</p>
           </div>
         </div>
-      </div>
+      </Link>
     );
 };
 

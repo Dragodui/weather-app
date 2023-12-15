@@ -8,7 +8,7 @@ interface PageHeaderProps {
 const PageHeader:FC<PageHeaderProps> = ({ title }) => {
     return (
         <div className="flex w-full justify-center gap-3 flex-col sm:justify-between sm:flex-row">
-            <h1 className="text-5xl font-black text-center sm:text-left">{title}</h1>
+            <h1 className="text-5xl text-white font-black text-center sm:text-left">{title}</h1>
             <ChangeParams/>
         </div>
     );

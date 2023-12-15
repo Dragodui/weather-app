@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import locationIcon from "../assets/header/location.svg";
 import logo from "../assets/header/logo.svg";
 import { setCities } from "../store/features/citySearchSlice";
-import { changeCity, changeSearchCity, changeVisibleCity } from "../store/features/citySlice";
+import { changeCity, changeMyLocation, changeSearchCity, changeVisibleCity } from "../store/features/citySlice";
 import { setCurrentWeather, setForecast, setWeather } from "../store/features/weatherSlice";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { IWeatherParams } from "../types";
@@ -14,9 +14,9 @@ const Header: FC = () => {
 
   const dispatch = useAppDispatch();
   const city = useAppSelector(state => state.city.city);
-  const cityToShow = useAppSelector(state => state.city.visibleCity);
   const cityToSearch = useAppSelector(state => state.city.searchCity);
   const citiesSearch = useAppSelector(state => state.citiesSearch.citiesSearch);
+  const myLocation = useAppSelector(state => state.city.myLocation);
 
   useEffect(() => {
     const fetchWeather = async() => {
@@ -111,6 +111,7 @@ const Header: FC = () => {
         }
         dispatch(changeCity({city:`${city.name}, ${city.adminName}, ${city.countryCode}`}));
         dispatch(changeVisibleCity({visibleCity: `${city.name}, ${city.countryCode}`}));
+        dispatch(changeMyLocation({myLocation: `${city.name}, ${city.countryCode}`}));
       }
       else {
         console.log('nie spoko');
@@ -154,28 +155,28 @@ const Header: FC = () => {
   
 
     return (
-        <header className="w-full flex justify-center items-center z-30 py-4 bg-gradient-to-r from-sky-400 to-purple-500">
+        <header className="w-full flex justify-center items-center z-30 py-4 bg-sky-600">
           <div className="container max-w-[1100px] mx-2 flex justify-between items-center">
             <Link to="/" className="flex gap-2 items-center"><img src={logo} alt="" className="w-11" /><h1 className="text-3xl text-white font-black hidden md:inline">Weather App</h1></Link>
             <div className="flex items-center gap-2">
               { 
-              city 
-                ? <Link to="/weather" onClick={handleLocation} className="flex items-center justify-end"><img className="w-7" src={locationIcon} alt="" /> <p className="text-white font-bold">{cityToShow}</p></Link>
+              myLocation 
+                ? <Link to="/weather" onClick={handleLocation} className="flex items-center justify-end"><img className="w-7" src={locationIcon} alt="" /> <p className="text-white font-bold">{myLocation}</p></Link>
                 : <Link to="/weather" onClick={handleLocation} className="flex items-center justify-end"><img className="w-7" src={locationIcon} alt="" /> <p className="text-white font-bold">find my location</p></Link>
               }
               <div className="max-w-[200px] md:max-w-[300px]">
                 <input 
-                  className="border-2 border-hidden outline-none rounded-xl relative z-20 px-2 py-1 w-full text-xl" 
+                  className="border-2 border-hidden outline-none rounded-xl relative z-20 px-2 py-1 w-full text-xl max-w-[120px] sm:max-w-[200px] md:max-w-[250px]" 
                   type="text" 
                   value={cityToSearch} 
                   onChange = {searchCity} 
-                  placeholder="🔍 type city. . ."
+                  placeholder="🔍 search city. . ."
                 />
-                <div className="flex flex-col z-40 max-h-24 overflow-y-auto scrollbar-hide absolute top-14 bg-gradient-to-r from-sky-400 to-purple-500 rounded-lg text-white max-w-[200px] md:max-w-[300px]">
+                <div className="flex flex-col z-40 max-h-24 overflow-y-auto scrollbar-hide absolute top-14 bg-sky-600 rounded-lg text-white max-w-[120px] sm:max-w-[200px] md:max-w-[250px]">
                   {
                     cityToSearch 
                       ?  citiesSearch.map(city => 
-                          <Link to='/weather' className="py-1 px-2 border-b-2" key={city.geonameId}  onClick={() => {
+                          <Link to='/weather' className="py-1 px-2 font-bold text-xl" key={city.geonameId}  onClick={() => {
                             dispatch(changeCity({city:`${city.name}, ${city.adminName}, ${city.countryCode}`}));
                             dispatch(changeVisibleCity({visibleCity: `${city.name}, ${city.countryCode}`}));
                             dispatch(changeSearchCity({searchCity: ''}));

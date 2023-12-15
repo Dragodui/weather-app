@@ -15,7 +15,8 @@ export default {
       },
       Colors: {
         'myPink': '#d500ff',
-        'myBlue': '#4d8df6'
+        'myBlue': '#3461eb',
+        'blueBg': '#3461eb'
       }
     },
   },
