@@ -46,6 +46,7 @@ const PaginatedList: FC = () => {
               <div className="flex gap-3">
                 <button  className="rounded-xl font-bold text-xl px-3 py-1 bg-sky-600  text-white" onClick={changeWeather} value="1">Today</button>
                 <button  className="rounded-xl font-bold text-xl px-3 py-1 bg-sky-600  text-white" onClick={changeWeather} value="2">Tomorrow</button>
+                <button  className="rounded-xl font-bold text-xl px-3 py-1 bg-sky-600  text-white" onClick={changeWeather} value="3">{getAfterTomorrowDate()}</button>
               </div>
               <div className="flex gap-3">
                 <button disabled={day==="1"}  className="rounded-xl disabled:opacity-50 font-bold text-xl px-3 py-1 bg-sky-600  text-white" onClick={changeDay} value="Prev">Prev day</button>
