@@ -11,7 +11,7 @@ const initialState: CitiesSearchState = {
 }
 
 export const CitiesSearchSlice = createSlice({
-    name: 'setDay',
+    name: 'citiesSearch',
     initialState,
     reducers: {
         setCities: (state, action: PayloadAction<ISearchedCity[]>) => {
